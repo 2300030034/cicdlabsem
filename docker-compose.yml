@@ -1,0 +1,82 @@
+version: "3.9"
+
+services:
+  eureka-server:
+    build: ./eureka-server
+    ports:
+      - "8761:8761"
+    networks:
+      - crms-net
+
+  config-server:
+    build: ./config-server
+    ports:
+      - "8888:8888"
+    depends_on:
+      - eureka-server
+    networks:
+      - crms-net
+
+  api-gateway:
+    build: ./api-gateway
+    ports:
+      - "8080:8080"
+    depends_on:
+      - eureka-server
+      - config-server
+    networks:
+      - crms-net
+
+  auth-service:
+    build: ./auth-service
+    ports:
+      - "9001:9001"
+    depends_on:
+      - eureka-server
+      - config-server
+    networks:
+      - crms-net
+
+  car-service:
+    build: ./car-service
+    ports:
+      - "9002:9002"
+    depends_on:
+      - eureka-server
+      - config-server
+    networks:
+      - crms-net
+
+  reservation-service:
+    build: ./reservation-service
+    ports:
+      - "9003:9003"
+    depends_on:
+      - eureka-server
+      - config-server
+    networks:
+      - crms-net
+
+  payment-service:
+    build: ./payment-service
+    ports:
+      - "9004:9004"
+    depends_on:
+      - eureka-server
+      - config-server
+    networks:
+      - crms-net
+
+  notification-service:
+    build: ./notification-service
+    ports:
+      - "9005:9005"
+    depends_on:
+      - eureka-server
+      - config-server
+    networks:
+      - crms-net
+
+networks:
+  crms-net:
+    driver: bridge
