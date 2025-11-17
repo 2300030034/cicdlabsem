@@ -1,0 +1,14 @@
+# Use Java 17 base image
+FROM eclipse-temurin:17-jdk-alpine
+
+# Set working directory inside the container
+WORKDIR /app
+
+# Copy the packaged Spring Boot jar file from target/
+COPY target/*.jar app.jar
+
+# Expose the default application port (Compose will remap ports)
+EXPOSE 8080
+
+# Command to run the Spring Boot application
+ENTRYPOINT ["java", "-jar", "app.jar"]
